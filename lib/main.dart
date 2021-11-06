@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:html';
 
 import 'package:flutter/material.dart';
@@ -144,6 +145,12 @@ class _loginPage extends State<loginPage> {
                         MaterialPageRoute(
                           builder: (context) => const tryAgianPage(),
                         ));
+                  } else if (usernameController.text == passController.text) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => splashScreen(),
+                        ));
                   }
                 },
                 child: Text(
@@ -213,7 +220,13 @@ class tryAgianPage extends StatelessWidget {
               //padding: const EdgeInsets.all(20),
               // ignore: deprecated_member_use
               child: FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => loginPage(),
+                      ));
+                },
                 child: Text(
                   'TRY AGAIN',
                   style: TextStyle(fontSize: 20),
@@ -239,21 +252,50 @@ class mailPage extends StatefulWidget {
 }
 
 class _mailPage extends State<mailPage> {
-  List<station> stations = [
-    station('ICloud', '4', false),
-    station('Gmail', '5', false),
-    station('Hotmail', '8', false),
-    station('VIP', '4', false),
-  ];
   Widget build(BuildContext context) {
-    return ListView();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mailboxes'),
+      ),
+      body: Text('hello'),
+    );
   }
 }
 
-class station {
-  String _name;
-  String _number;
+class splashScreen extends StatefulWidget {
+  const splashScreen({Key? key}) : super(key: key);
 
-  bool check;
-  station(this._name, this._number, this.check);
+  @override
+  _splashScreen createState() => _splashScreen();
+}
+
+class _splashScreen extends State<splashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 3), () {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => mailPage()));
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue.shade300,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('images/logo.png'),
+            SizedBox(
+              height: 220,
+            ),
+            CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }
