@@ -14,7 +14,151 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: tryAgianPage(),
+      home: loginPage(),
+    );
+  }
+}
+
+class loginPage extends StatefulWidget {
+  const loginPage({Key? key}) : super(key: key);
+  @override
+  _loginPage createState() => _loginPage();
+}
+
+class _loginPage extends State<loginPage> {
+  TextEditingController usernameController = TextEditingController();
+  final passController = TextEditingController();
+
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Đăng nhập',
+        ),
+      ),
+      backgroundColor: Colors.blue.shade300,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: Icon(
+                Icons.account_circle_outlined,
+                size: 120,
+                color: Colors.white,
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Text("SignIn",
+                      style: TextStyle(color: Colors.white, fontSize: 40)),
+                  Text(
+                    'Speak, friend and enter',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 60),
+            Container(
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(color: Colors.white),
+              width: 400,
+              child: TextField(
+                controller: usernameController,
+                style: TextStyle(color: Colors.blue),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(10),
+                  labelText: 'Username',
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Container(
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(color: Colors.white),
+              width: 400,
+              child: TextField(
+                controller: passController,
+                obscureText: true,
+                style: TextStyle(
+                  color: Colors.blue,
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.all(10),
+                  labelText: 'Password',
+                ),
+              ),
+            ),
+            SizedBox(height: 60),
+            Container(
+              //padding: const EdgeInsets.all(20),
+              // ignore: deprecated_member_use
+              child: FlatButton(
+                onPressed: () {
+                  if (usernameController.text == "" &&
+                      passController.text == "") {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Lỗi'),
+                            content: const Text(
+                                'Username và Password không được rỗng.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text('Tắt'))
+                            ],
+                          );
+                        });
+                  } else if (usernameController.text == "" ||
+                      passController.text == "") {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Lỗi'),
+                            content:
+                                const Text('Chưa nhập Username hoặc Password.'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Tắt'))
+                            ],
+                          );
+                        });
+                  } else if (usernameController.text != passController.text) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const tryAgianPage(),
+                        ));
+                  }
+                },
+                child: Text(
+                  'SIGN IN',
+                  style: TextStyle(fontSize: 20),
+                ),
+                color: Colors.black,
+                textColor: Colors.white,
+              ),
+              height: 50,
+              width: 400,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -34,73 +178,82 @@ class tryAgianPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Icon(
-                      Icons.unpublished_outlined,
-                      size: 90,
-                      color: Colors.blue.shade700,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(1),
-                          child: Text(
-                            "UPS... couldn't Sign In",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Text(
-                          "Your username and password don't match.",
-                        ),
-                        Text("Please,try agian.")
-                      ],
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.all(10),
+              child: Icon(
+                Icons.unpublished_outlined,
+                size: 120,
+                color: Colors.blue,
               ),
-              height: 400,
             ),
-            Expanded(
-              child: Container(
-                width: 100,
-              ),
+            SizedBox(
+              height: 20,
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: 30.0),
-              width: double.infinity,
-              child: OutlinedButton(
-                onPressed: () {
-                  /*Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const (),
-                        ),
-                      );*/
-                },
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                ),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Text("UPS...couldn't Sign In",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold)),
+                  Text(
+                    "Your username and password don't match.",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Text(
+                    "Please, try again.",
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(height: 270),
+            Container(
+              //padding: const EdgeInsets.all(20),
+              // ignore: deprecated_member_use
+              child: FlatButton(
+                onPressed: () {},
                 child: Text(
                   'TRY AGAIN',
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
+                  style: TextStyle(fontSize: 20),
                 ),
+                color: Colors.black,
+                textColor: Colors.white,
               ),
-              height: 100,
+              height: 50,
+              width: 400,
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class mailPage extends StatefulWidget {
+  const mailPage({Key? key}) : super(key: key);
+
+  @override
+  _mailPage createState() => _mailPage();
+}
+
+class _mailPage extends State<mailPage> {
+  List<station> stations = [
+    station('ICloud', '4', false),
+    station('Gmail', '5', false),
+    station('Hotmail', '8', false),
+    station('VIP', '4', false),
+  ];
+  Widget build(BuildContext context) {
+    return ListView();
+  }
+}
+
+class station {
+  String _name;
+  String _number;
+
+  bool check;
+  station(this._name, this._number, this.check);
 }
